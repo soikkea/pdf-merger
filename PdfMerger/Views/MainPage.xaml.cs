@@ -26,5 +26,10 @@ namespace PdfMerger
         {
             this.InitializeComponent();
         }
+
+        private void addFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

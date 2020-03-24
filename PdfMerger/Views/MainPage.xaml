@@ -5,10 +5,36 @@
     xmlns:local="using:PdfMerger"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:PdfMerger.Views.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <StackPanel>
+            <Grid>
+                <Button x:Name="addFileButton" Content="Add file" Click="addFileButton_Click"/>
+            </Grid>
+            <SplitView IsPaneOpen="True"
+                       DisplayMode="Inline">
+                <SplitView.Pane>
+                    <ListView>
 
+                    </ListView>
+                </SplitView.Pane>
+                <Grid>
+                    <controls:PdfViewer x:Name="pdfViewer">
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout Placement="Bottom">
+                                <StackPanel>
+                                    <TextBlock Text="Merging Succeeded!" />
+                                    <Button>View file</Button>
+                                </StackPanel>
+                            </Flyout>
+
+                        </FlyoutBase.AttachedFlyout>
+                    </controls:PdfViewer>
+                </Grid>
+            </SplitView>
+        </StackPanel>
     </Grid>
 </Page>
