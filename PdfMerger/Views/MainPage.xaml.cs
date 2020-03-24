@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PdfMerger.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,7 +28,9 @@ namespace PdfMerger
             this.InitializeComponent();
         }
 
-        private void addFileButton_Click(object sender, RoutedEventArgs e)
+        public MainViewModel ViewModel => App.ViewModel;
+
+        private async void addFileButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
