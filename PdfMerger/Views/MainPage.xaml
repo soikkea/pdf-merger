@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:PdfMerger.Views.Controls"
+    xmlns:models="using:PdfMerger.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -21,8 +22,25 @@
             <SplitView IsPaneOpen="True"
                        DisplayMode="Inline">
                 <SplitView.Pane>
-                    <ListView>
-
+                    <ListView x:Name="pdfListView" ItemsSource="{x:Bind ViewModel.PdfFiles}"
+                              SelectionMode="Single" IsItemClickEnabled="False"
+                              SelectionChanged="pdfListView_SelectionChanged"
+                              CanReorderItems="True" CanDragItems="True"
+                              AllowDrop="True" RightTapped="pdfListView_RightTapped">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:PdfFile">
+                                <Grid>
+                                    <TextBlock Text="{x:Bind Path=File.Name}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Resources>
+                            <MenuFlyout x:Name="pdfMenuFlyout">
+                                <MenuFlyout.Items>
+                                    <MenuFlyoutItem x:Name="removePdfFromList" Text="Remove" Click="removePdfFromList_Click" Icon="Delete" />
+                                </MenuFlyout.Items>
+                            </MenuFlyout>
+                        </ListView.Resources>
                     </ListView>
                 </SplitView.Pane>
                 <Grid>

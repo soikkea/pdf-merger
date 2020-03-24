@@ -52,5 +52,36 @@ namespace PdfMerger
                     await pdfViewer.DisplayPdfDoc(pdfDocument);
                 });
         }
+
+        private async void pdfListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (pdfListView.SelectedItem is PdfFile pdf)
+            {
+                await DisplayPdf(pdf);
+            }
+        }
+
+        private string rightClickedFilePath;
+
+        private void pdfListView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ListView listView = (ListView)sender;
+            pdfMenuFlyout.ShowAt(listView, e.GetPosition(listView));
+            var a = ((FrameworkElement)e.OriginalSource).DataContext as PdfFile;
+            rightClickedFilePath = a.File.Path;
+        }
+
+        private void removePdfFromList_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var pdfFile in ViewModel.PdfFiles)
+            {
+                if (pdfFile.File.Path == rightClickedFilePath)
+                {
+                    ViewModel.PdfFiles.Remove(pdfFile);
+                    break;
+                }
+            }
+            rightClickedFilePath = null;
+        }
     }
 }
