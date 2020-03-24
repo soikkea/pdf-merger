@@ -1,11 +1,16 @@
-﻿using PdfMerger.ViewModels;
+﻿using PdfMerger.Models;
+using PdfMerger.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.Data.Pdf;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,7 +37,20 @@ namespace PdfMerger
 
         private async void addFileButton_Click(object sender, RoutedEventArgs e)
         {
+            var latestPdfFile = await ViewModel.LoadPdfFile();
 
+            await DisplayPdf(latestPdfFile);
+        }
+
+        private async Task DisplayPdf(PdfFile pdf)
+        {
+            var pdfDocument = await PdfDocument.LoadFromFileAsync(pdf.File);
+
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    await pdfViewer.DisplayPdfDoc(pdfDocument);
+                });
         }
     }
 }
