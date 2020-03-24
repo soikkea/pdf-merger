@@ -44,7 +44,12 @@ namespace PdfMerger
 
         private async Task DisplayPdf(PdfFile pdf)
         {
-            var pdfDocument = await PdfDocument.LoadFromFileAsync(pdf.File);
+            PdfDocument pdfDocument = null;
+
+            if (pdf != null)
+            {
+                pdfDocument = await PdfDocument.LoadFromFileAsync(pdf.File);
+            }
 
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 async () =>
@@ -59,6 +64,10 @@ namespace PdfMerger
             {
                 await DisplayPdf(pdf);
             }
+            else if (pdfListView.SelectedItem == null)
+            {
+                await DisplayPdf(null);
+            }
         }
 
         private string rightClickedFilePath;
@@ -71,7 +80,7 @@ namespace PdfMerger
             rightClickedFilePath = a.File.Path;
         }
 
-        private void removePdfFromList_Click(object sender, RoutedEventArgs e)
+        private async void removePdfFromList_Click(object sender, RoutedEventArgs e)
         {
             foreach (var pdfFile in ViewModel.PdfFiles)
             {
@@ -82,6 +91,10 @@ namespace PdfMerger
                 }
             }
             rightClickedFilePath = null;
+            if (ViewModel.PdfFiles.Count == 0)
+            {
+                await DisplayPdf(null);
+            }
         }
     }
 }
