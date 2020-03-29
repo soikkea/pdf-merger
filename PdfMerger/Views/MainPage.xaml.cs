@@ -96,5 +96,25 @@ namespace PdfMerger
                 await DisplayPdf(null);
             }
         }
+
+        private async void mergeButton_Click(object sender, RoutedEventArgs e)
+        {
+            var success = await ViewModel.MergePdfs();
+            if (success)
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                    CoreDispatcherPriority.Normal, () =>
+                        {
+                            FlyoutBase.ShowAttachedFlyout(pdfViewer);
+                        });
+            }
+        }
+
+        private async void flyoutViewFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var latestMerge = ViewModel.LoadLatestMerge();
+
+            await DisplayPdf(latestMerge);
+        }
     }
 }

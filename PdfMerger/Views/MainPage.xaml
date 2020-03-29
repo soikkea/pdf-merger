@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:PdfMerger.Views.Controls"
     xmlns:models="using:PdfMerger.Models"
+    xmlns:vm="using:PdfMerger.ViewModels"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -16,7 +17,17 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Button x:Name="addFileButton" Content="Add file" Click="addFileButton_Click"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" x:Name="addFileButton"
+                    Content="Add file" Click="addFileButton_Click"
+                    HorizontalAlignment="Center" Margin="10"/>
+            <Button Grid.Column="1" x:Name="mergeButton"
+                    Content="Merge" Click="mergeButton_Click"
+                    HorizontalAlignment="Center" Margin="10"
+                    IsEnabled="{x:Bind vm:Converters.IsNotEmpty(ViewModel.PdfFiles), Mode=OneWay}"/>
         </Grid>
         <Grid Grid.Row="1">
             <SplitView IsPaneOpen="True"
@@ -49,7 +60,8 @@
                             <Flyout Placement="Bottom">
                                 <StackPanel>
                                     <TextBlock Text="Merging Succeeded!" />
-                                    <Button>View file</Button>
+                                    <Button x:Name="flyoutViewFileButton" Content="View file"
+                                            Click="flyoutViewFileButton_Click"/>
                                 </StackPanel>
                             </Flyout>
 
