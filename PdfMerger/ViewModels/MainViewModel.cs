@@ -13,7 +13,7 @@ namespace PdfMerger.ViewModels
 {
     public class MainViewModel : BindableBase
     {
-        private PdfMergeUtility pdfMergeUtility = new PdfMergeUtility();
+        private readonly PdfMergeUtility pdfMergeUtility = new PdfMergeUtility();
 
         public ObservableCollection<PdfFile> PdfFiles { get; }
             = new ObservableCollection<PdfFile>();
